@@ -1,0 +1,354 @@
+:root {
+  color-scheme: dark;
+  --bg: #07101d;
+  --panel: rgba(8, 18, 33, 0.96);
+  --panel-border: rgba(96, 165, 250, 0.18);
+  --text: #e7edf8;
+  --muted: #94a3b8;
+  --accent: #60a5fa;
+  --accent-2: #38bdf8;
+  --accent-3: #0ea5e9;
+  --shadow: 0 35px 90px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #020712 0%, #08121f 42%, #0d1e34 100%);
+  color: var(--text);
+}
+
+button {
+  font: inherit;
+}
+
+.page-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.scene {
+  position: relative;
+  width: min(1120px, 100%);
+  display: grid;
+  gap: 2rem;
+}
+
+.info-panel,
+.game-card {
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 32px;
+  background: rgba(7, 16, 29, 0.96);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+  padding: 2rem;
+}
+
+.info-panel {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.16);
+  color: #bfdbfe;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.info-panel h1 {
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.info-panel p {
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.status-card {
+  padding: 1.1rem 1.2rem;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(96, 165, 250, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.status-card span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.status-card strong {
+  font-size: 1.75rem;
+}
+
+.status-card.highlight {
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.18), rgba(56, 189, 248, 0.04));
+  border-color: rgba(56, 189, 248, 0.24);
+}
+
+.game-card {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.road-scene {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 32px;
+  background: radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.16), transparent 28%),
+    linear-gradient(180deg, #0b192d 0%, #091228 28%, #071020 100%);
+  border: 1px solid rgba(96, 165, 250, 0.12);
+}
+
+.road-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.24) 55%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.road-lines {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.road-line {
+  position: relative;
+  width: 2px;
+  height: 100%;
+  margin: 0 auto;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(96, 165, 250, 0.45),
+    rgba(96, 165, 250, 0.45) 28px,
+    transparent 28px,
+    transparent 56px
+  );
+}
+
+.obstacle {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 1.5rem;
+  text-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  transition: transform 0.15s ease;
+}
+
+.obstacle.rock {
+  background: linear-gradient(135deg, #334155 0%, #0f172a 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.obstacle.person {
+  width: 56px;
+  height: 92px;
+  background: linear-gradient(180deg, rgba(96, 165, 250, 0.22), rgba(56, 189, 248, 0.08));
+  border-radius: 26px;
+  box-shadow: 0 20px 50px rgba(8, 25, 56, 0.2);
+}
+
+.car {
+  position: absolute;
+  bottom: 24px;
+  width: 96px;
+  height: 160px;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+}
+
+.car-top,
+.car-body {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.car-top {
+  width: 62px;
+  height: 54px;
+  top: 12px;
+  border-radius: 22px 22px 18px 18px;
+  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+  box-shadow: inset 0 8px 16px rgba(15, 23, 42, 0.24);
+}
+
+.car-body {
+  width: 100%;
+  height: 120px;
+  bottom: 0;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.25);
+}
+
+.wheel {
+  position: absolute;
+  bottom: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #0f172a;
+  box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.14);
+}
+
+.wheel.left {
+  left: 14px;
+}
+
+.wheel.right {
+  right: 14px;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 16, 29, 0.78);
+}
+
+.game-over-box {
+  background: rgba(7, 16, 29, 0.96);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 2rem;
+  border-radius: 28px;
+  text-align: center;
+  width: min(380px, calc(100% - 3rem));
+}
+
+.game-over-box h2 {
+  margin-bottom: 0.75rem;
+  font-size: 2.2rem;
+}
+
+.game-over-box p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.primary-button {
+  border: none;
+  border-radius: 18px;
+  padding: 1rem 1.5rem;
+  color: #fff;
+  background: linear-gradient(135deg, #60a5fa, #0ea5e9);
+  box-shadow: 0 18px 40px rgba(56, 189, 248, 0.24);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+}
+
+.control-hint {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.control-hint span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.action-buttons {
+  display: inline-flex;
+  gap: 0.75rem;
+}
+
+.action-buttons button {
+  width: 54px;
+  height: 54px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.action-buttons button:hover {
+  background: rgba(56, 189, 248, 0.16);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 860px) {
+  .scene {
+    gap: 1.5rem;
+  }
+
+  .status-panel {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    padding: 1.25rem;
+  }
+
+  .info-panel,
+  .game-card {
+    padding: 1.5rem;
+  }
+
+  .game-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons {
+    justify-content: flex-start;
+  }
+
+  .road-scene {
+    min-height: 420px;
+  }
+}
